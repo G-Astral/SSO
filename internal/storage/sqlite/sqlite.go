@@ -1,10 +1,5 @@
 package sqlite
 
-// тут будут реализованы методы, которые описываются в интерфейсах файла
-// sso/internal/services/auth/auth.go
-// это комментарий для самопроверки
-// да, я был прав
-
 import (
 	"context"
 	"database/sql"
@@ -39,7 +34,7 @@ func (s *Storage) SaveUser(
 ) (int64, error) {
 	const op = "storage.sqlite.SaveUser"
 
-	stmt, err := s.db.Prepare("INSERT INTO users(email, pass_hash) VAULES(?, ?)")
+	stmt, err := s.db.Prepare("INSERT INTO users (email, pass_hash) VALUES(?, ?)")
 	if err != nil {
 		return 0, fmt.Errorf("%s: %w", op, err)
 	}
@@ -115,7 +110,7 @@ func (s *Storage) IsAdmin(ctx context.Context, userID int64) (bool, error) {
 func (s *Storage) App(ctx context.Context, id int) (models.App, error) {
 	const op = "storage.sqlite.App"
 
-	stmt, err := s.db.Prepare("SELECT id, name, secret FROM users WHERE id = ?")
+	stmt, err := s.db.Prepare("SELECT id, name, secret FROM apps WHERE id = ?")
 	if err != nil {
 		return models.App{}, fmt.Errorf("%s: %w", op, err)
 	}
